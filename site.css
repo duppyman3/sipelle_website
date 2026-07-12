@@ -1,0 +1,640 @@
+/* ===========================================================================
+   Sipelle — site.css
+   Site layer. WEB-NOTES §5 defers breakpoints + fluid type to the site — this
+   file is their sanctioned home. Raw `--text-*` tokens are consumed ONLY inside
+   the `:root` remap block below; markup uses `--fs-*` exclusively.
+
+   Load order (per page): /design-system/styles.css  THEN  /site.css.
+   All color / radius / shadow / spacing come from design-system tokens via
+   var(). The only raw literals in this file are `#000` inside mask-image
+   feathers and the one cited footer hairline `rgba(0,0,0,0.05)`.
+   =========================================================================== */
+
+/* ---------------------------------------------------------------------------
+   Fluid type remap + site layout scale.
+   The 768px @2x phone tokens are remapped to desktop with clamp(): min anchors
+   ≈ @1x per-screen values (reference/README.md), max reached ~1200px, middle
+   term uses rem + vw so browser zoom still scales type. Each formula is
+   live-linked to its source --text-* token (the only place they may appear).
+   --------------------------------------------------------------------------- */
+:root {
+  --fs-wordmark:   clamp(calc(var(--text-splash-wordmark) * 0.625), 0.82rem + 6.91vw, calc(var(--text-splash-wordmark) * 1.5));      /* 40 → 96 */
+  --fs-title:      clamp(calc(var(--text-screen-title) * 0.68),     1.45rem + 1.75vw, var(--text-screen-title));                     /* 30 → 44 */
+  --fs-title-sm:   clamp(calc(var(--text-drink-name) * 0.6875),     1.19rem + 0.74vw, calc(var(--text-drink-name) * 0.875));         /* 22 → 28 */
+  --fs-hand-xl:    clamp(calc(var(--text-greeting) * 0.5),          1.53rem + 2.96vw, calc(var(--text-greeting) * 0.8333));          /* 36 → 60 */
+  --fs-hand:       clamp(calc(var(--text-label) * 0.8333),          1.07rem + 0.74vw, calc(var(--text-label) * 1.0833));             /* 20 → 26 */
+  --fs-drink-name: clamp(calc(var(--text-drink-name) * 0.65625),    1.16rem + 0.62vw, calc(var(--text-drink-name) * 0.8125));        /* 21 → 26 */
+  --fs-price:      clamp(calc(var(--text-price) * 0.6154),          0.94rem + 0.25vw, calc(var(--text-price) * 0.6923));             /* 16 → 18 */
+  --fs-body:       clamp(calc(var(--text-body-size) * 0.82),        0.93rem + 0.19vw, calc(var(--text-body-size) * 0.9));            /* 15.6 → 17.1 (min raised above app 13.5 @1x for web legibility) */
+  --fs-small:      clamp(calc(var(--text-body-size) * 0.6842),      0.78rem + 0.12vw, calc(var(--text-body-size) * 0.7368));         /* 13 → 14 */
+  --fs-stars:      clamp(16px, 0.88rem + 0.49vw, 20px);                                                                             /* 16 → 20 — no type token; reference/README.md fixes @1x stars at 16px */
+
+  /* Site-layer layout values (new; sanctioned by WEB-NOTES §5). */
+  --content-max: 1060px;
+  --prose-max: 680px;
+  --page-pad: clamp(var(--screen-gutter), 4vw, 48px);
+  --section-pad-y: clamp(var(--space-7), 9vw, 112px);
+}
+
+/* ---------------------------------------------------------------------------
+   Base
+   --------------------------------------------------------------------------- */
+*, *::before, *::after { box-sizing: border-box; }
+
+html { -webkit-text-size-adjust: 100%; background: var(--wash-cream); }
+
+body {
+  margin: 0;
+  font-family: var(--font-body);
+  font-size: var(--fs-body);
+  line-height: var(--leading-body);
+  color: var(--ink);
+  background: var(--wash-cream);   /* app base (--bg-app); landing sections paint over it, subpages sit on it */
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img { max-width: 100%; height: auto; display: block; }
+
+a { color: inherit; text-decoration: none; }
+
+h1, h2, h3, p, ol, ul, figure, blockquote { margin: 0; }
+
+:focus-visible { outline: 2px solid var(--ink); outline-offset: 3px; }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px;
+  padding: 0; margin: -1px; overflow: hidden;
+  clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+
+/* ---------------------------------------------------------------------------
+   Section shells + decorative accents
+   Backgrounds are flat token washes; wash-PNG swatches and corner flourishes
+   are absolutely-positioned accents feathered with mask-image (the only place
+   a gradient may appear). Content sits above on z-index 1.
+   --------------------------------------------------------------------------- */
+.section {
+  position: relative;
+  overflow: hidden;
+  padding: var(--section-pad-y) var(--page-pad);
+}
+.section--splash { background: var(--wash-splash); }
+.section--cream  { background: var(--wash-cream); }
+.section--mint   { background: var(--wash-mint); }
+
+.content {
+  position: relative;
+  z-index: 1;
+  max-width: var(--content-max);
+  margin-inline: auto;
+}
+
+/* Painted wash swatches, feathered to a soft blob so no rectangle edge shows. */
+.wash-accent {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  width: clamp(280px, 38vw, 540px);
+  aspect-ratio: 1;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  -webkit-mask-image: radial-gradient(closest-side, #000 55%, transparent 100%);
+          mask-image: radial-gradient(closest-side, #000 55%, transparent 100%);
+}
+.wash-accent--home    { background-image: url("/design-system/assets/bg-home-wash.png"); }
+.wash-accent--results { background-image: url("/design-system/assets/bg-results-wash.png"); }
+.wash-accent--tl { top: -8%;  left: -8%; }
+.wash-accent--tr { top: -8%;  right: -8%; }
+.wash-accent--bl { bottom: -8%; left: -8%; }
+.wash-accent--br { bottom: -8%; right: -8%; }
+
+/* Splash corner flourishes. Corner-anchored mask feather keeps the painted
+   streak solid at the outer corner and dissolves the pale inner edge into the
+   wash — robust against any tiny PNG/wash colour drift. */
+.flourish {
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  width: clamp(180px, 24vw, 340px);
+  height: auto;
+}
+.flourish--tl {
+  top: 0; left: 0;
+  -webkit-mask-image: radial-gradient(140% 140% at 0% 0%, #000 52%, transparent 100%);
+          mask-image: radial-gradient(140% 140% at 0% 0%, #000 52%, transparent 100%);
+}
+.flourish--br {
+  bottom: 0; right: 0;
+  -webkit-mask-image: radial-gradient(140% 140% at 100% 100%, #000 52%, transparent 100%);
+          mask-image: radial-gradient(140% 140% at 100% 100%, #000 52%, transparent 100%);
+}
+.flourish--sm { width: clamp(140px, 18vw, 260px); }
+
+/* Desktop-only floating cocktail (mint section). hero-cocktail.png carries a
+   mint/powder wash slice that tone-matches --wash-mint; the mask feather hides
+   its left-edge crop artifacts and the rectangle. */
+.float-cocktail {
+  display: none;
+  position: absolute;
+  z-index: 0;
+  pointer-events: none;
+  top: 50%;
+  right: -3%;
+  transform: translateY(-50%);
+  width: clamp(300px, 32vw, 460px);
+  height: auto;
+  /* Glass emerges from the right (which bleeds off-screen); the left third of
+     hero-cocktail.png — its powder wash slice + white crop artifacts — is faded
+     out entirely, and the top/bottom soften into --wash-mint. */
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0, #000 48%, #000 100%),
+    linear-gradient(to bottom, transparent 0, #000 12%, #000 88%, transparent 100%);
+  -webkit-mask-composite: source-in;
+          mask-image:
+    linear-gradient(to right, transparent 0, #000 48%, #000 100%),
+    linear-gradient(to bottom, transparent 0, #000 12%, #000 88%, transparent 100%);
+          mask-composite: intersect;
+}
+
+/* ---------------------------------------------------------------------------
+   Type helpers + section headings
+   --------------------------------------------------------------------------- */
+.wordmark {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: var(--fs-wordmark);
+  line-height: 1;
+  text-transform: lowercase;
+  letter-spacing: -0.005em;
+  color: var(--ink);
+  text-wrap: balance;
+}
+
+.hand {
+  font-family: var(--font-hand);
+  font-weight: 600;
+  font-size: var(--fs-hand);
+  line-height: 1.15;
+  color: var(--ink);
+}
+.hand-xl { font-size: var(--fs-hand-xl); line-height: 1.05; }
+
+.section-head {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  max-width: 44ch;
+  margin: 0 auto var(--space-7);
+  text-align: center;
+}
+.section-title {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: var(--fs-title);
+  line-height: var(--leading-tight);
+  color: var(--ink);
+  text-wrap: balance;
+}
+.section-intro {
+  font-size: var(--fs-body);
+  line-height: var(--leading-body);
+  color: var(--text-body);
+  max-width: 46ch;
+}
+
+/* ---------------------------------------------------------------------------
+   Hero
+   --------------------------------------------------------------------------- */
+.hero .content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-4);
+}
+.hero__glass {
+  width: clamp(190px, 22vw, 280px);
+  /* splash-spritz-glass.png ships a flat #FEEEEE slice ≠ --wash-splash (#FBE7E6);
+     feather the edges so no rectangle shows. Horizontal fade is wide (glass is
+     centred with margin); vertical fade is slim so the garnish/base stay intact. */
+  -webkit-mask-image:
+    linear-gradient(to right, transparent 0, #000 13%, #000 87%, transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 6%, #000 94%, transparent 100%);
+  -webkit-mask-composite: source-in;
+          mask-image:
+    linear-gradient(to right, transparent 0, #000 13%, #000 87%, transparent 100%),
+    linear-gradient(to bottom, transparent 0, #000 6%, #000 94%, transparent 100%);
+          mask-composite: intersect;
+}
+.hero__pitch {
+  max-width: 52ch;
+  font-size: var(--fs-body);
+  line-height: var(--leading-body);
+  color: var(--text-body);
+}
+
+/* ---------------------------------------------------------------------------
+   Pills (PricePill language) — non-interactive spans, no cursor / no press.
+   --------------------------------------------------------------------------- */
+.pill {
+  display: inline-block;
+  background: var(--surface-pill);
+  box-shadow: var(--shadow-pill);
+  border-radius: var(--radius-pill);
+  padding: 8px 14px;                 /* cited: spec-sheet.html PricePill */
+  font-family: var(--font-body);
+  font-weight: 700;
+  font-size: var(--fs-price);
+  line-height: 1.1;
+  color: var(--ink);
+  white-space: nowrap;
+}
+.pill-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-3);
+  margin-top: var(--space-2);
+}
+.pill-row .hand { margin-right: var(--space-1); }
+
+/* ---------------------------------------------------------------------------
+   Tiles (white mats)
+   --------------------------------------------------------------------------- */
+.tile {
+  background: var(--surface-tile);
+  border-radius: var(--radius-tile);
+  box-shadow: var(--shadow-tile);
+}
+.tile--round {
+  border-radius: var(--radius-full);
+  width: clamp(160px, 22vw, 210px);
+  aspect-ratio: 1;
+  display: grid;
+  place-items: center;
+  padding: var(--space-4);
+}
+.tile--round img { width: 82%; height: 82%; object-fit: contain; }
+
+/* ---------------------------------------------------------------------------
+   Steps ("How it works") — <ol>, 1 col → 3 col at 720px
+   --------------------------------------------------------------------------- */
+.steps {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-7);
+  max-width: 880px;
+  margin-inline: auto;
+}
+.step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-3);
+}
+.step h3 {
+  font-family: var(--font-hand);
+  font-weight: 600;
+  font-size: var(--fs-title-sm);
+  line-height: 1.1;
+  color: var(--ink);
+}
+.step p {
+  font-size: var(--fs-body);
+  line-height: var(--leading-body);
+  color: var(--text-body);
+  max-width: 26ch;
+}
+
+/* ---------------------------------------------------------------------------
+   Category chips — flex-basis forces exactly 3 per row → 5 items break 3 + 2
+   like the real home screen. Painted PNG chips + CSS circle chips share sizing.
+   --------------------------------------------------------------------------- */
+.chip-row {
+  --chip-gap: clamp(12px, 2vw, 22px);
+  list-style: none;
+  padding: 0;
+  margin: 0 auto;
+  max-width: 500px;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--space-6) var(--chip-gap);
+}
+.chip {
+  flex: 0 0 calc((100% - 2 * var(--chip-gap)) / 3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  text-align: center;
+}
+.chip__art {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: var(--radius-full);
+  box-shadow: 0 0 0 6px var(--surface-tile), var(--shadow-tile);
+}
+img.chip__art { object-fit: cover; }
+.chip--css .chip__art {
+  display: grid;
+  place-items: center;
+}
+.chip--cocktails .chip__art { background: var(--wash-powder); }
+.chip--wine .chip__art { background: var(--wash-blush); }
+.chip__art svg {
+  width: 44%;
+  height: 44%;
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.chip__label {
+  font-family: var(--font-hand);
+  font-weight: 600;
+  font-size: var(--fs-hand);
+  line-height: 1.1;
+  color: var(--ink);
+}
+
+/* ---------------------------------------------------------------------------
+   Stars — glyph technique ported from StarRating.jsx. Half = ☆ base with a
+   50%-clipped ★ overlay. Wrapper is role="img"; glyphs are aria-hidden.
+   --------------------------------------------------------------------------- */
+.stars {
+  display: inline-flex;
+  gap: 3px;                          /* cited: StarRating letter spacing */
+  font-size: var(--fs-stars);
+  line-height: 1;
+  color: var(--ink);
+}
+.star-half { position: relative; display: inline-block; }
+.star-half__fill {
+  position: absolute;
+  inset: 0;
+  width: 50%;
+  overflow: hidden;
+}
+
+/* ---------------------------------------------------------------------------
+   Drink cards — exact spec-sheet.html pattern. Static (no press).
+   --------------------------------------------------------------------------- */
+.cards {
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: var(--card-gap);
+}
+.drink-card {
+  display: flex;
+  gap: var(--space-4);
+  align-items: flex-start;
+  background: var(--surface-card);
+  box-shadow: var(--shadow-card);
+  border-radius: var(--radius-card);
+  padding: var(--card-padding);
+}
+.drink-card__thumb {
+  flex-shrink: 0;
+  width: clamp(104px, 12vw, 126px);  /* cited: reference thumbnail 104 → spec-sheet 126 */
+  aspect-ratio: 120 / 126;
+  object-fit: cover;
+  background: var(--surface-tile);
+  border-radius: var(--radius-tile);
+  box-shadow: var(--shadow-tile);
+}
+.drink-card__body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 4px;
+  min-width: 0;
+}
+.drink-card__head {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-3);
+}
+.drink-card__name {
+  flex: 1;
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: var(--fs-drink-name);
+  line-height: var(--leading-tight);
+  color: var(--ink);
+}
+.drink-card__desc {
+  font-size: var(--fs-body);
+  line-height: var(--leading-body);
+  color: var(--text-body);
+}
+
+/* ---------------------------------------------------------------------------
+   Phone frame — screenshot on a white mat with card radius. No fake bezel.
+   --------------------------------------------------------------------------- */
+.phone {
+  display: flex;
+  justify-content: center;
+}
+.phone img {
+  width: clamp(240px, 70vw, 330px);
+  border-radius: var(--radius-card);
+  box-shadow: 0 0 0 clamp(8px, 1.2vw, 12px) var(--surface-tile), var(--shadow-card);
+}
+
+/* ---------------------------------------------------------------------------
+   Duo layout (sections 4 + 5)
+   --------------------------------------------------------------------------- */
+.duo {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-7);
+  align-items: center;
+}
+.coming-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: var(--space-4);
+}
+
+/* ---------------------------------------------------------------------------
+   Press state — real links only.
+   --------------------------------------------------------------------------- */
+.pressable { transition: transform var(--duration-press) var(--ease-soft); }
+.pressable:active { transform: scale(var(--press-scale)); }
+
+/* ---------------------------------------------------------------------------
+   Footer (contentinfo) — the one sanctioned hairline in the whole site.
+   --------------------------------------------------------------------------- */
+.site-footer {
+  background: var(--surface-tile);
+  border-top: 1px solid rgba(0, 0, 0, 0.05);   /* cited: reference/README.md tab-bar top border */
+  min-height: var(--tabbar-height);
+  padding: var(--space-6) var(--page-pad);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-3);
+  text-align: center;
+}
+.site-footer__brand {
+  font-family: var(--font-hand);
+  font-weight: 600;
+  font-size: var(--fs-hand);
+  color: var(--ink);
+}
+.site-footer nav {
+  display: flex;
+  gap: var(--space-4);
+}
+.site-footer a {
+  display: inline-flex;
+  align-items: center;
+  min-height: var(--tap-min);
+  padding: 0 var(--space-2);
+  font-size: var(--fs-body);
+  color: var(--ink);
+}
+.site-footer__copy {
+  font-size: var(--fs-small);
+  color: var(--text-body);
+}
+
+/* ---------------------------------------------------------------------------
+   Sub-page chrome (privacy / support) — ScreenHeader mirror + prose
+   --------------------------------------------------------------------------- */
+/* Page wrapper: positioned + clips the .wash-accent bleed (the role .section
+   plays on the landing; sub-pages have no .section). */
+.subpage { position: relative; overflow: hidden; }
+
+.page-header {
+  position: relative;
+  padding: var(--space-5) var(--page-pad) var(--space-6);
+  text-align: center;
+}
+.page-header h1 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: var(--fs-title);
+  line-height: var(--leading-tight);
+  color: var(--ink);
+}
+.back-link {
+  position: absolute;
+  left: var(--page-pad);
+  top: var(--space-4);
+  width: var(--tap-min);
+  height: var(--tap-min);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+.back-link svg {
+  width: 28px;
+  height: 28px;
+  fill: none;
+  stroke: var(--ink);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.prose {
+  max-width: var(--prose-max);
+  margin: 0 auto;
+  padding: 0 var(--page-pad) var(--section-pad-y);
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-5);
+}
+.prose-card {
+  background: var(--surface-card);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-card);
+  padding: clamp(var(--space-5), 4vw, var(--space-7));
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-4);
+}
+.prose-card h2 {
+  font-family: var(--font-serif);
+  font-weight: 600;
+  font-size: var(--fs-title-sm);
+  line-height: var(--leading-tight);
+  color: var(--ink);
+}
+.prose-card p, .prose-card li {
+  font-size: var(--fs-body);
+  line-height: var(--leading-body);
+  color: var(--text-body);
+}
+.prose-card a { color: var(--ink); text-decoration: underline; text-underline-offset: 3px; }
+.prose-card ul { margin: 0; padding-left: 1.2em; display: flex; flex-direction: column; gap: var(--space-2); }
+.prose-lead {
+  font-size: var(--fs-body);
+  line-height: var(--leading-body);
+  color: var(--text-body);
+}
+
+.draft-note {
+  display: inline-flex;
+  align-self: flex-start;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--surface-pill);
+  box-shadow: var(--shadow-pill);
+  border-radius: var(--radius-pill);
+  padding: 8px 14px;
+  font-weight: 700;
+  font-size: var(--fs-small);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--ink);
+}
+
+/* ---------------------------------------------------------------------------
+   Entrance — fade + 14px rise. Hero only; staggered 0 / 90 / … / 360ms.
+   --------------------------------------------------------------------------- */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to   { opacity: 1; transform: none; }
+}
+[data-rise] { animation: rise 480ms var(--ease-soft) both; }
+[data-rise="1"] { animation-delay: 90ms; }
+[data-rise="2"] { animation-delay: 180ms; }
+[data-rise="3"] { animation-delay: 270ms; }
+[data-rise="4"] { animation-delay: 360ms; }
+
+/* ---------------------------------------------------------------------------
+   Responsive — single breakpoint (WEB-NOTES §5)
+   --------------------------------------------------------------------------- */
+@media (min-width: 720px) {
+  .steps { grid-template-columns: repeat(3, 1fr); }
+  .duo {
+    grid-template-columns: minmax(260px, 340px) 1fr;
+    gap: clamp(var(--space-6), 5vw, 72px);
+  }
+  .float-cocktail { display: block; }
+}
+
+/* ---------------------------------------------------------------------------
+   Reduced motion — kills entrance + press everywhere.
+   --------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  [data-rise] { animation: none; }
+  .pressable { transition: none; }
+  .pressable:active { transform: none; }
+}

@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Sipelle — snap the menu, know what to order</title>
+  <meta name="description" content="Snap a photo of any drinks menu and Sipelle turns it into a beautiful, illustrated, rated drink list — so you always know what to order.">
+  <meta name="theme-color" content="#FBE7E6"><!-- = --wash-splash; meta can't consume CSS vars -->
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Sipelle — snap the menu, know what to order">
+  <meta property="og:description" content="Snap a photo of any drinks menu and Sipelle turns it into a beautiful, illustrated, rated drink list — so you always know what to order.">
+  <meta property="og:type" content="website">
+  <!-- og:image: absolute URL required. Update host after first deploy / custom domain; replace with a real 1200x630 card (follow-up). -->
+  <meta property="og:image" content="https://sipelle.app/design-system/assets/splash-full.png">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="/design-system/styles.css">
+  <link rel="stylesheet" href="/site.css">
+
+  <link rel="icon" type="image/png" href="/favicon.png">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+</head>
+<body>
+
+  <!-- 1 · Hero / splash ---------------------------------------------------- -->
+  <header class="section section--splash hero">
+    <img class="flourish flourish--tl" src="/design-system/assets/flourish-top-left.png" alt="" aria-hidden="true" width="340" height="230">
+    <img class="flourish flourish--br" src="/design-system/assets/flourish-bottom-right.png" alt="" aria-hidden="true" width="308" height="336">
+    <div class="content">
+      <img class="hero__glass" src="/design-system/assets/splash-spritz-glass.png"
+           alt="Watercolor illustration of an Aperol spritz in a wine glass, garnished with orange and mint"
+           width="260" height="470" fetchpriority="high" data-rise>
+      <h1 class="wordmark" data-rise="1">sipelle</h1>
+      <p class="hand hand-xl" data-rise="2">Snap the menu. Sip happy.</p>
+      <p class="hero__pitch" data-rise="3">Snap a photo of any drinks menu and Sipelle turns it into a beautiful, illustrated, rated drink list — so you always know what to order.</p>
+      <p class="pill-row" data-rise="4">
+        <span class="hand">Coming soon on</span>
+        <span class="pill">App Store</span>
+        <span class="pill">Google Play</span>
+      </p>
+    </div>
+  </header>
+
+  <!-- 2 · How it works ----------------------------------------------------- -->
+  <section class="section section--cream" aria-labelledby="how-title">
+    <div class="wash-accent wash-accent--results wash-accent--tr" aria-hidden="true"></div>
+    <div class="wash-accent wash-accent--results wash-accent--bl" aria-hidden="true"></div>
+    <div class="content">
+      <div class="section-head">
+        <h2 class="section-title" id="how-title">How it works</h2>
+      </div>
+      <ol class="steps">
+        <li class="step">
+          <div class="tile tile--round">
+            <img src="/design-system/assets/scan-menu-blob.png"
+                 alt="Scan Menu — Sipelle's watercolor camera button" width="280" height="280">
+          </div>
+          <h3>Scan the menu</h3>
+          <p>Point your camera at any drinks menu.</p>
+        </li>
+        <li class="step">
+          <div class="tile tile--round">
+            <img src="/design-system/assets/category-exotic.png"
+                 alt="A watercolor coconut drink" width="196" height="196">
+          </div>
+          <h3>Pick your mood</h3>
+          <p>Beer, wine, cocktails — tell Sipelle what you feel like.</p>
+        </li>
+        <li class="step">
+          <div class="tile tile--round">
+            <img src="/design-system/assets/drink-mojito.png"
+                 alt="A watercolor mojito" width="168" height="176">
+          </div>
+          <span class="stars" role="img" aria-label="Rated 5 out of 5 stars">
+            <span aria-hidden="true">&#9733;</span><span aria-hidden="true">&#9733;</span><span aria-hidden="true">&#9733;</span><span aria-hidden="true">&#9733;</span><span aria-hidden="true">&#9733;</span>
+          </span>
+          <h3>Sip happy</h3>
+          <p>Every drink illustrated, rated, and priced.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <!-- 3 · Browse by mood --------------------------------------------------- -->
+  <section class="section section--mint" aria-labelledby="mood-title">
+    <img class="float-cocktail" src="/design-system/assets/hero-cocktail.png" alt="" aria-hidden="true" width="513" height="570">
+    <div class="wash-accent wash-accent--home wash-accent--tl" aria-hidden="true"></div>
+    <div class="content">
+      <div class="section-head">
+        <h2 class="section-title" id="mood-title">Browse by mood</h2>
+        <p class="section-intro">Beer, wine, cocktails and more — Sipelle sorts the whole menu into moods you can actually browse.</p>
+      </div>
+      <ul class="chip-row">
+        <li class="chip">
+          <img class="chip__art" src="/design-system/assets/category-citrus.png" alt="" aria-hidden="true" width="196" height="196">
+          <span class="chip__label">Citrus</span>
+        </li>
+        <li class="chip">
+          <img class="chip__art" src="/design-system/assets/category-beer.png" alt="" aria-hidden="true" width="196" height="196">
+          <span class="chip__label">Beer</span>
+        </li>
+        <li class="chip">
+          <img class="chip__art" src="/design-system/assets/category-exotic.png" alt="" aria-hidden="true" width="196" height="196">
+          <span class="chip__label">Exotic</span>
+        </li>
+        <li class="chip chip--css chip--cocktails">
+          <span class="chip__art">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 22h8"/><path d="M12 11v11"/><path d="m19 3-7 8-7-8Z"/></svg>
+          </span>
+          <span class="chip__label">Cocktails</span>
+        </li>
+        <li class="chip chip--css chip--wine">
+          <span class="chip__art">
+            <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M8 22h8"/><path d="M7 10h10"/><path d="M12 15v7"/><path d="M12 15a5 5 0 0 0 5-5c0-2-.5-4-2-8H9c-1.5 4-2 6-2 8a5 5 0 0 0 5 5Z"/></svg>
+          </span>
+          <span class="chip__label">Wine</span>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 4 · Rated results ---------------------------------------------------- -->
+  <section class="section section--cream" aria-labelledby="rated-title">
+    <div class="wash-accent wash-accent--results wash-accent--tl" aria-hidden="true"></div>
+    <div class="wash-accent wash-accent--results wash-accent--br" aria-hidden="true"></div>
+    <div class="content">
+      <div class="section-head">
+        <h2 class="section-title" id="rated-title">Union Square, rated</h2>
+        <p class="hand">so you always know what to order</p>
+      </div>
+      <div class="duo">
+        <figure class="phone">
+          <img src="/design-system/screenshots/home_page.png"
+               alt="The Sipelle home screen: a warm greeting, five mood categories, and a Scan Menu button"
+               width="754" height="1693" loading="lazy">
+          <figcaption class="sr-only">Sipelle app home screen</figcaption>
+        </figure>
+        <ul class="cards">
+          <li class="drink-card">
+            <img class="drink-card__thumb" src="/design-system/assets/drink-aperol-spritz.png" alt="" width="168" height="176" loading="lazy">
+            <div class="drink-card__body">
+              <div class="drink-card__head">
+                <span class="drink-card__name">Aperol Spritz</span>
+                <span class="pill">$14</span>
+              </div>
+              <span class="stars" role="img" aria-label="Rated 5 out of 5 stars">
+                <span aria-hidden="true">&#9733;</span><span aria-hidden="true">&#9733;</span><span aria-hidden="true">&#9733;</span><span aria-hidden="true">&#9733;</span><span aria-hidden="true">&#9733;</span>
+              </span>
+              <p class="drink-card__desc">Refreshing with prosecco and orange</p>
+            </div>
+          </li>
+          <li class="drink-card">
+            <img class="drink-card__thumb" src="/design-system/assets/drink-dirty-martini.png" alt="" width="168" height="176" loading="lazy">
+            <div class="drink-card__body">
+              <div class="drink-card__head">
+                <span class="drink-card__name">Dirty Martini</span>
+                <span class="pill">$16</span>
+              </div>
+              <span class="stars" role="img" aria-label="Rated 4.5 out of 5 stars">
+                <span aria-hidden="true">&#9733;</span><span aria-hidden="true">&#9733;</span><span aria-hidden="true">&#9733;</span><span aria-hidden="true">&#9733;</span><span class="star-half" aria-hidden="true"><span class="star-half__base">&#9734;</span><span class="star-half__fill">&#9733;</span></span>
+              </span>
+              <p class="drink-card__desc">Classic gin with an olive twist</p>
+            </div>
+          </li>
+          <li class="drink-card">
+            <img class="drink-card__thumb" src="/design-system/assets/drink-mojito.png" alt="" width="168" height="176" loading="lazy">
+            <div class="drink-card__body">
+              <div class="drink-card__head">
+                <span class="drink-card__name">Mojito</span>
+                <span class="pill">$13</span>
+              </div>
+              <span class="stars" role="img" aria-label="Rated 5 out of 5 stars">
+                <span aria-hidden="true">&#9733;</span><span aria-hidden="true">&#9733;</span><span aria-hidden="true">&#9733;</span><span aria-hidden="true">&#9733;</span><span aria-hidden="true">&#9733;</span>
+              </span>
+              <p class="drink-card__desc">Rum, fresh lime, and mint</p>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 · Coming soon ------------------------------------------------------ -->
+  <section class="section section--splash" aria-labelledby="soon-title">
+    <img class="flourish flourish--tl flourish--sm" src="/design-system/assets/flourish-top-left.png" alt="" aria-hidden="true" width="340" height="230">
+    <img class="flourish flourish--br flourish--sm" src="/design-system/assets/flourish-bottom-right.png" alt="" aria-hidden="true" width="308" height="336">
+    <div class="content">
+      <div class="duo">
+        <figure class="phone">
+          <img src="/design-system/screenshots/splash_page.png"
+               alt="The Sipelle splash screen with the spritz-glass logo and the sipelle wordmark"
+               width="760" height="1689" loading="lazy">
+          <figcaption class="sr-only">Sipelle app splash screen</figcaption>
+        </figure>
+        <div class="coming-text">
+          <h2 class="section-title" id="soon-title">Coming soon</h2>
+          <p class="hand hand-xl">See you at the bar.</p>
+          <p class="pill-row">
+            <span class="hand">Coming soon on</span>
+            <span class="pill">App Store</span>
+            <span class="pill">Google Play</span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 · Footer ----------------------------------------------------------- -->
+  <footer class="site-footer">
+    <span class="site-footer__brand">Sipelle</span>
+    <nav aria-label="Footer">
+      <a class="pressable" href="/privacy.html">Privacy</a>
+      <a class="pressable" href="/support.html">Support</a>
+    </nav>
+    <p class="site-footer__copy">© 2026 Sipelle</p>
+  </footer>
+
+</body>
+</html>
